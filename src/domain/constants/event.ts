@@ -1,0 +1,7 @@
+const CONCLUDED = 1
+const NOT_CONCLUDED = 2
+
+export {
+  CONCLUDED,
+  NOT_CONCLUDED
+}
