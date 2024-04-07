@@ -1,0 +1,24 @@
+version: "3"
+services:
+  contact-center-attendance-export-graphql-api:
+    image: event-track-graphql-api:${VERSION}
+    env_file: 
+      - build/docker/delivery/api/graphql/env.env
+    build:
+      context: .
+      dockerfile: build/docker/delivery/api/graphql/Dockerfile
+      args:
+        - SERVER=graphql
+    ports:
+      - "8079:8079"
+  contact-center-attendance-export-rest-api:
+    image: event-track-rest-api:${VERSION}
+    env_file: 
+      - build/docker/delivery/api/rest/env.env
+    build:
+      context: .
+      dockerfile: build/docker/delivery/api/rest/Dockerfile
+      args:
+        - SERVER=rest
+    ports:
+      - "8085:8085"
