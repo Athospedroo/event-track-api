@@ -20,7 +20,7 @@ class DataSourceBuilder {
   static async builderDatasource() {
     return new DataSource({
       type: 'postgres',
-      url: 'postgresql://athos_pedro:**gcj2024apteresao**@localhost:5432/database_event_track',
+      url: 'postgresql://postgres:TZiFcL0eMOwtvvWf6KfB@aws-database-event-track.cni4giyyqy23.us-east-1.rds.amazonaws.com:5432/database_event_track',
       synchronize: false,
       entities: await this.resolveEntities()
     })

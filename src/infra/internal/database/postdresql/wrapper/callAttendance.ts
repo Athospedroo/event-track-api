@@ -208,7 +208,7 @@ WHERE u.voice_type = $1
 ORDER BY u.badge_number ASC;
       `
   }
-
+// add filter for date
   getParameters(): any[] {
     return [
       this.voiceType,
