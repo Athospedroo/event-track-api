@@ -11,6 +11,11 @@ services:
         - SERVER=graphql
     ports:
       - "8079:8079"
+    deploy:
+      resources:
+        limits:
+          memory: 2g  # Definindo limite de 2 gigabytes de memória
+          
   event-track-rest-api:
     image: event-track-rest-api:${VERSION}
     env_file: 
@@ -22,3 +27,7 @@ services:
         - SERVER=rest
     ports:
       - "8085:8085"
+    deploy:
+      resources:
+        limits:
+          memory: 2g  # Definindo limite de 2 gigabytes de memória
