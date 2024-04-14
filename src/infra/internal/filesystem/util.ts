@@ -20,7 +20,7 @@ async function importFile(path: string) {
   ]
 }
 
-async function loadFilesOnDirectory(dir: string) {
+async function loadFilesOnDirectory(dir: string): Promise<any> {
   if (!existsSync(dir)) return []
 
   const files = readdirSync(dir, { encoding: 'utf-8' })

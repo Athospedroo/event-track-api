@@ -42,7 +42,7 @@ class CreateUsersByFileUseCase {
           }
         })
         const writableStream = new Writable({
-          write: async (chunk, encoding, callbak) => {
+          write: async (chunk, encoding, callbak): Promise<any> => {
             try {
               const string = chunk.toString()
               const data = JSON.parse(string)
