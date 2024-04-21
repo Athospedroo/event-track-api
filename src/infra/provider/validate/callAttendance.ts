@@ -7,7 +7,7 @@ import { checkDateEmpty, checkNumberEmpty, checkStringEmpty } from "./validate"
 class RegisterUserCallAttendanceUseCaseValidate implements RegisterUserCallAttendanceUseCaseValidateInterface {
   async registerUserCallAttendance(filter: RegisterUserCallAttendanceFilter): Promise<string | null> {
     if (checkStringEmpty(filter.userAdmID)) 'O ID do usuário adm não pode ficar vazio bença!'
-    if (await getUserPresentCallAttendance(filter.userID)) return 'Esse usuario já está presente!'
+    if (await getUserPresentCallAttendance(filter.userID, filter.eventID)) return 'Esse usuario já está presente!'
     if (checkStringEmpty(filter.userID)) 'O ID do participante não pode ficar vazio terra seca'
     return null
   }

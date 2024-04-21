@@ -63,15 +63,15 @@ class ListUserCallAttendanceAbsentController {
 
 class ListUsersCallAttendanceController {
   async listUsersCallAttendance(args: any): Promise<ListUsersCallAttendanceUseCaseResponse> {
-    const { voiceType } = args
+    const { voiceType, eventID } = args
 
-    const ucReq = new ListUsersCallAttendanceUseCaseRequest(voiceType)
+    const ucReq = new ListUsersCallAttendanceUseCaseRequest(voiceType, eventID)
 
     const validate = new ListUsersCallAttendanceuseCaseValidate()
     const repository = new ListUsersCallAttendanceuseCaseRepository()
 
     const usecase = new ListUsersCallAttendanceUseCase(validate, repository)
-
+    console.log('usecase', await usecase.listUsersCallAttendance(ucReq))
     return await usecase.listUsersCallAttendance(ucReq)
   }
 }

@@ -37,7 +37,8 @@ const listUsersCallAttendaceQuery = {
   usersCallAttendance: {
     type: listUsersCallAttendanceResponseType,
     args: {
-      voiceType: { type: GraphQLInt }
+      voiceType: { type: GraphQLInt },
+      eventID: { type: GraphQLInt }
     },
     resolve: async (_: any, args: any): Promise<ListUsersCallAttendanceUseCaseResponse> => {
       return await new ListUsersCallAttendanceController().listUsersCallAttendance(args)

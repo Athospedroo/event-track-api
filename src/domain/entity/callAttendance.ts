@@ -63,8 +63,8 @@ class ListUsersCallAttendancePresenceOrAbsentFilter {
 }
 
 class ListusersCallAttendanceFilter {
-  public ID: string | null
-  public name: string
+  ID: string | null
+  name: string
   email: string | null
   password: string | null
   voiceType: number

@@ -3,7 +3,7 @@ import { UserEntity } from "../../entity/user"
 
 interface RegisterUserCallAttendanceUseCaseRepositoryInterface {
   getEventStartDate(eventID: number): Promise<Date | null>
-  getUserPresentCallAttendance(userID: string): Promise<CallAttendanceEntity | null>
+  getUserPresentCallAttendance(userID: string, eventID: number): Promise<CallAttendanceEntity | null>
   registerUserCallAttendace(filter: RegisterUserCallAttendanceFilter): Promise<void>
   updateUserCallAttendace(userID: string, userAdmID: string, presence: number, updatedAt: string): Promise<void>
   getUserAbsentCallAttendance(userID: string): Promise<CallAttendanceEntity | null>
@@ -25,7 +25,7 @@ interface ListUserCallAttendanceAbsentUseCaseRepositoryInterface {
 }
 
 interface ListUsersCallAttendanceUseCaseRepositoryInterface {
-  listUsersCallAttendance(voiceType: number): Promise<ListusersCallAttendanceFilter[] | null>
+  listUsersCallAttendance(voiceType: number, eventID: number): Promise<ListusersCallAttendanceFilter[] | null>
 }
 
 export {

@@ -14,8 +14,8 @@ async function registerUserCallAttendance(filter: RegisterUserCallAttendanceFilt
 
 async function removeUserCallAttendance(userID: string, userAdmID: string, updatedAt: Date): Promise<void> {
   const repository = await Connection.getRepository(CallAttendanceModel)
-  await repository.update({ userID },{ userAdmID, updatedAt, presence: NOT_PRESENCE } )
-  }
+  await repository.update({ userID }, { userAdmID, updatedAt, presence: NOT_PRESENCE })
+}
 
 async function getUserCallAttendance(userID: string): Promise<CallAttendanceEntity | null> {
   const repository = await Connection.getRepository(CallAttendanceModel)
@@ -25,10 +25,10 @@ async function getUserCallAttendance(userID: string): Promise<CallAttendanceEnti
   return getUserCallAttendance ? toCallAttendanceEntity(getUserCallAttendance) : null
 }
 
-async function getUserPresentCallAttendance(userID: string): Promise<CallAttendanceEntity | null> {
+async function getUserPresentCallAttendance(userID: string, eventID: number): Promise<CallAttendanceEntity | null> {
   const repository = await Connection.getRepository(CallAttendanceModel)
 
-  const getUserCallAttendance = await repository.findOneBy({ userID, presence: PRESENCE })
+  const getUserCallAttendance = await repository.findOneBy({ userID, presence: PRESENCE, eventID })
   return getUserCallAttendance ? toCallAttendanceEntity(getUserCallAttendance) : null
 }
 
@@ -41,17 +41,21 @@ async function getUserAbsentCallAttendance(userID: string): Promise<CallAttendan
 
 async function updateUserCallAttendace(userID: string, userAdmID: string, presence: number, updatedAt: string): Promise<void> {
   const repository = await Connection.getRepository(CallAttendanceModel)
-  await repository.update({ userID },{ userAdmID, updatedAt, presence } )
+  await repository.update({ userID }, { userAdmID, updatedAt, presence })
 }
 
 async function listUsersCallAttendancePresence(filter: ListUsersCallAttendancePresenceOrAbsentFilter): Promise<UserEntity[] | null> {
+  console.log('chgou aqui')
   const { voiceType, page, initialDate, finalDate } = filter
   const manager = await Connection.getManager()
   const adjustedInitialDate = `${initialDate} 00:00:00`
   const adjustedFinalDate = `${finalDate} 23:59:59`
 
   const wrapper = new ListUserCallAttendancePresentWrapper(voiceType, page, adjustedInitialDate, adjustedFinalDate)
+  console.log(wrapper.getSQL())
   const result = await manager.query(wrapper.getSQL(), wrapper.getParameters())
+
+  console.log('result', result)
   return result
 }
 
@@ -90,11 +94,14 @@ async function countUsersCallAttendanceAbsent(filter: ListUsersCallAttendancePre
   return count
 }
 
-async function listUsersCallAttendance(voiceType: number): Promise<ListusersCallAttendanceFilter[] | null> {
+async function listUsersCallAttendance(voiceType: number, eventID: number): Promise<ListusersCallAttendanceFilter[] | null> {
+
   const manager = await Connection.getManager()
 
-  const wrapper = new ListUserCallAttendanceWrapper(voiceType)
+  const wrapper = new ListUserCallAttendanceWrapper(voiceType, eventID)
+  console.log(wrapper.getSQL())
   const result = await manager.query(wrapper.getSQL(), wrapper.getParameters())
+  console.log('result', result)
   return result
 }
 

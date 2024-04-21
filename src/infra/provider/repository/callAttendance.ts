@@ -9,8 +9,8 @@ class RegisterUserCallAttendanceUseCaseRepository implements RegisterUserCallAtt
     return getEventStartDate(eventID)
   }
 
-  async getUserPresentCallAttendance(userID: string): Promise<CallAttendanceEntity | null> {
-    return getUserPresentCallAttendance(userID)
+  async getUserPresentCallAttendance(userID: string, eventID: number): Promise<CallAttendanceEntity | null> {
+    return getUserPresentCallAttendance(userID, eventID)
   }
 
   async getUserAbsentCallAttendance(userID: string): Promise<CallAttendanceEntity | null> {
@@ -56,8 +56,9 @@ class ListUserCallAttendanceAbsentUseCaseRepository implements ListUserCallAtten
 }
 
 class ListUsersCallAttendanceuseCaseRepository implements ListUsersCallAttendanceUseCaseRepositoryInterface {
-  async listUsersCallAttendance(voiceType: number): Promise<ListusersCallAttendanceFilter[] | null> {
-    return await listUsersCallAttendance(voiceType)
+  async listUsersCallAttendance(voiceType: number, eventID: number): Promise<ListusersCallAttendanceFilter[] | null> {
+
+    return await listUsersCallAttendance(voiceType, eventID)
   }
 }
 export {

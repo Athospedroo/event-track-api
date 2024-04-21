@@ -35,7 +35,7 @@ class RegisterUserCallAttendanceUseCase {
         //   console.log(TAG_PRE_CONDITION_ERROR, 'horário limite de atraso excedido!')
         //   return new RegisterUserCallAttendanceUseCaseResponse(new PreconditionError('horário limite de atraso excedido!'))
         // }
-        const userIsPresence = await this.repository.getUserPresentCallAttendance(registerUserCallAttendanceFilter.userID)
+        const userIsPresence = await this.repository.getUserPresentCallAttendance(registerUserCallAttendanceFilter.userID, req.eventID)
         if (userIsPresence) {
           console.log(TAG_PRE_CONDITION_ERROR, 'O usuário já se encontra Presente!')
           return new RegisterUserCallAttendanceUseCaseResponse(new PreconditionError('O usuário já se encontra presente!'))
@@ -171,7 +171,9 @@ class ListUsersCallAttendanceUseCase {
         console.log(TAG_PRE_CONDITION_ERROR, errorMessage)
         return new ListUsersCallAttendanceUseCaseResponse(null, new PreconditionError(errorMessage))
       } else {
-        const users = await this.repository.listUsersCallAttendance(req.voiceType)
+
+
+        const users = await this.repository.listUsersCallAttendance(req.voiceType, req.eventID)
 
         return new ListUsersCallAttendanceUseCaseResponse(users, null)
       }

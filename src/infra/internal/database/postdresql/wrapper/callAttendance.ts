@@ -83,7 +83,6 @@ class CountUserCallAttendanceAbsentWrapper {
   }
 }
 
-
 class ListUserCallAttendancePresentWrapper {
   voiceType: number
   page: number
@@ -139,8 +138,6 @@ class ListUserCallAttendancePresentWrapper {
     ]
   }
 }
-
-
 class CountUserCallAttendancePresentWrapper {
   voiceType: number
   initialDate: string
@@ -172,12 +169,14 @@ class CountUserCallAttendancePresentWrapper {
     ]
   }
 }
-
 class ListUserCallAttendanceWrapper {
   voiceType: number
+  eventID: number
 
-  constructor(voiceType: number) {
+  constructor(voiceType: number, eventID: number) {
     this.voiceType = voiceType
+    this.eventID = eventID
+
   }
 
   getSQL(): string {
@@ -203,15 +202,16 @@ class ListUserCallAttendanceWrapper {
         ELSE FALSE
     END AS presence
 FROM "security".users u 
-LEFT JOIN public.call_attendances ca ON u.id = ca.user_id
+LEFT JOIN public.call_attendances ca ON u.id = ca.user_id AND ca.event_id = $2
 WHERE u.voice_type = $1
+
 ORDER BY u.badge_number ASC;
       `
   }
-// add filter for date
   getParameters(): any[] {
     return [
       this.voiceType,
+      this.eventID
     ]
   }
 }

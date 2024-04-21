@@ -10,7 +10,7 @@ class RegisterUserCallAttendanceUseCaseRequest {
   badgeChecked: number
   justifieldAbsentType: number | null
 
-  constructor(userID: string, userAdmID: string, eventID: number, presence: number, badgeChecked: number,  justifieldAbsentType: number | null,) {
+  constructor(userID: string, userAdmID: string, eventID: number, presence: number, badgeChecked: number, justifieldAbsentType: number | null,) {
     this.userID = userID
     this.userAdmID = userAdmID
     this.eventID = eventID
@@ -102,17 +102,19 @@ class ListUserCallAttendanceAbsentUseCaseResponse {
 
 class ListUsersCallAttendanceUseCaseRequest {
   voiceType: number
+  eventID: number
 
-  constructor(voiceType: number) {
+  constructor(voiceType: number, eventID: number) {
     this.voiceType = voiceType
+    this.eventID = eventID
   }
 }
 
 class ListUsersCallAttendanceUseCaseResponse {
-  usersCallAttendance :ListusersCallAttendanceFilter[] | null
+  usersCallAttendance: ListusersCallAttendanceFilter[] | null
   error: ErrorEntity | null
 
-  constructor(usersCallAttendace: ListusersCallAttendanceFilter[] | null, 
+  constructor(usersCallAttendace: ListusersCallAttendanceFilter[] | null,
     error: ErrorEntity | null) {
     this.usersCallAttendance = usersCallAttendace
     this.error = error
