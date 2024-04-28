@@ -45,11 +45,26 @@ async function concludeEvent(ID: number): Promise<void> {
   await repository.update({ ID }, {  concluded: CONCLUDED })
 }
 
+async function countUsersAbsentByVoiceType(eventID: number, voiceType: number): Promise<number> {
+ return 0
+}
+
+async function countUsersPresentsByVoiceType(eventID: number, voiceType: number): Promise<number> {
+ return 1
+}
+
+// async function listUsetsRecent(eventId: number, voiceType: number): Promise<UserEntity[]> {
+//   return 
+// }
+
 export {
   createEvent,
   listEvent,
   initEvent,
   getEventStarted,
   getEventStartDate,
-  concludeEvent
+  concludeEvent,
+  countUsersAbsentByVoiceType,
+  countUsersPresentsByVoiceType,
+  // listUsetsRecent
 }

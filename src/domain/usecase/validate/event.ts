@@ -12,8 +12,13 @@ interface ConcludeEventUseCaseValidateInterface {
   concludeEvent(eventID: number): string | null
 }
 
+interface EventTrackAnalyticsUseCaseValidateInterface {
+  eventTrackAnalytics(eventID: number, voiceType: number): string | null
+}
+
 export {
   CreateEventUseCaseValidateInterface,
   InitEventUseCaseValidateInterface,
-  ConcludeEventUseCaseValidateInterface
+  ConcludeEventUseCaseValidateInterface,
+  EventTrackAnalyticsUseCaseValidateInterface
 }

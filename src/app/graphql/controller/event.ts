@@ -1,7 +1,7 @@
-import { ConcludeEventUseCase, CreateEventUseCase, InitEventUseCase, ListEventUseCase } from "../../../domain/usecase/event"
-import { ConcludeEventUseCaseRequest, ConcludeEventUseCaseResponse, CreateEventUseCaseRequest, CreateEventUseCaseResponse, InitEventUseCaseRequest, InitEventUseCaseResponse, ListEventUseCaseResponse } from "../../../domain/usecase/ucio/event"
-import { ConcludeEventUseCaseRepository, CreateEventUseCaseRepository, InitEventUseCaseRepository, ListEventUseCaseRepository } from "../../../infra/provider/repository/event"
-import { ConcludeEventUseCaseValidate, CreateEventUseCaseValidate, InitEventUseCaseValidate } from "../../../infra/provider/validate/event"
+import { ConcludeEventUseCase, CreateEventUseCase, EventTrackAnalyticsUseCase, InitEventUseCase, ListEventUseCase } from "../../../domain/usecase/event"
+import { ConcludeEventUseCaseRequest, ConcludeEventUseCaseResponse, CreateEventUseCaseRequest, CreateEventUseCaseResponse, EventTrackAnalyticsUseCaseRequest, EventTrackAnalyticsUseCaseResponse, InitEventUseCaseRequest, InitEventUseCaseResponse, ListEventUseCaseResponse } from "../../../domain/usecase/ucio/event"
+import { ConcludeEventUseCaseRepository, CreateEventUseCaseRepository, EventTrackAnalyticsUseCaseRepository, InitEventUseCaseRepository, ListEventUseCaseRepository } from "../../../infra/provider/repository/event"
+import { ConcludeEventUseCaseValidate, CreateEventUseCaseValidate, EventTrackAnalyticsUseCaseValidate, InitEventUseCaseValidate } from "../../../infra/provider/validate/event"
 
 class CreateEventController {
   async createEvent(args: any): Promise<CreateEventUseCaseResponse> {
@@ -57,9 +57,26 @@ class ConcludeEventController {
     return await usecase.concludeEvent(ucReq)
   }
 }
+
+class EventTrackAnalyticsController {
+  async eventTRackAnalytics(args: any): Promise<EventTrackAnalyticsUseCaseResponse> {
+    const { eventID, voiceType } = args
+
+    const ucReq = new EventTrackAnalyticsUseCaseRequest(eventID, voiceType)
+
+    const validate = new EventTrackAnalyticsUseCaseValidate()
+    const repository = new EventTrackAnalyticsUseCaseRepository()
+
+    const usecase = new EventTrackAnalyticsUseCase(validate, repository)
+
+    return await usecase.eventTrackAnalutics(ucReq)
+  }
+}
+
 export {
   CreateEventController,
   ListEventController,
   InitEventController,
-  ConcludeEventController
+  ConcludeEventController,
+  EventTrackAnalyticsController
 }

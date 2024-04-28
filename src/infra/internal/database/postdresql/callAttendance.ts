@@ -45,17 +45,14 @@ async function updateUserCallAttendace(userID: string, userAdmID: string, presen
 }
 
 async function listUsersCallAttendancePresence(filter: ListUsersCallAttendancePresenceOrAbsentFilter): Promise<UserEntity[] | null> {
-  console.log('chgou aqui')
   const { voiceType, page, initialDate, finalDate } = filter
   const manager = await Connection.getManager()
   const adjustedInitialDate = `${initialDate} 00:00:00`
   const adjustedFinalDate = `${finalDate} 23:59:59`
 
   const wrapper = new ListUserCallAttendancePresentWrapper(voiceType, page, adjustedInitialDate, adjustedFinalDate)
-  console.log(wrapper.getSQL())
   const result = await manager.query(wrapper.getSQL(), wrapper.getParameters())
 
-  console.log('result', result)
   return result
 }
 
@@ -99,9 +96,7 @@ async function listUsersCallAttendance(voiceType: number, eventID: number): Prom
   const manager = await Connection.getManager()
 
   const wrapper = new ListUserCallAttendanceWrapper(voiceType, eventID)
-  console.log(wrapper.getSQL())
   const result = await manager.query(wrapper.getSQL(), wrapper.getParameters())
-  console.log('result', result)
   return result
 }
 

@@ -1,6 +1,7 @@
 import { EventEntity } from "../../../domain/entity/event"
-import { ConcludeEventUseCaseRepositoryInterface, CreateEventUseCaseRepositoryInterface, InitEventUseCaseRepositoryInterface, ListEventUseCaseRepositoryInterface } from "../../../domain/usecase/repository/event"
-import { concludeEvent, createEvent, getEventStarted, initEvent, listEvent } from "../../internal/database/postdresql/event"
+import { UserEntity } from "../../../domain/entity/user"
+import { ConcludeEventUseCaseRepositoryInterface, CreateEventUseCaseRepositoryInterface, EventTrackAnalyticsUseCaseRepositoryInterface, InitEventUseCaseRepositoryInterface, ListEventUseCaseRepositoryInterface } from "../../../domain/usecase/repository/event"
+import { concludeEvent, countUsersAbsentByVoiceType, countUsersPresentsByVoiceType, createEvent, getEventStarted, initEvent, listEvent } from "../../internal/database/postdresql/event"
 
 class CreateEventUseCaseRepository implements CreateEventUseCaseRepositoryInterface {
   async createEvent(filter: EventEntity): Promise<void> {
@@ -30,9 +31,24 @@ class ConcludeEventUseCaseRepository implements ConcludeEventUseCaseRepositoryIn
   }
 }
 
+class EventTrackAnalyticsUseCaseRepository implements EventTrackAnalyticsUseCaseRepositoryInterface {
+  async countUsersAbsentByVoiceType(eventID: number, voiceType: number): Promise<number> {
+    return await countUsersAbsentByVoiceType(eventID, voiceType)
+  }
+
+  async countUsersPresentsByVoiceType(eventID: number, voiceType: number): Promise<number> {
+    return await countUsersPresentsByVoiceType(eventID, voiceType)
+  }
+
+  // async listUsetsRecent(eventId: number, voiceType: number): Promise<UserEntity[]> {
+  //   return await listUsetsRecent(eventId, voiceType)
+  // }
+}
+
 export {
   CreateEventUseCaseRepository,
   ListEventUseCaseRepository,
   InitEventUseCaseRepository,
-  ConcludeEventUseCaseRepository
+  ConcludeEventUseCaseRepository,
+  EventTrackAnalyticsUseCaseRepository
 }

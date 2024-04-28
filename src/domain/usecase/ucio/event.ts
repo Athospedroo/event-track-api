@@ -1,5 +1,6 @@
 import { ErrorEntity } from "../../entity/error"
 import { EventEntity } from "../../entity/event"
+import { UserEntity } from "../../entity/user"
 
 class CreateEventUseCaseRequest {
   name: string
@@ -16,7 +17,7 @@ class CreateEventUseCaseRequest {
 class CreateEventUseCaseResponse {
   error: ErrorEntity | null
 
-  constructor (error: ErrorEntity | null) {
+  constructor(error: ErrorEntity | null) {
     this.error = error
   }
 }
@@ -63,6 +64,29 @@ class ConcludeEventUseCaseResponse {
   }
 }
 
+class EventTrackAnalyticsUseCaseRequest {
+  eventID: number
+  voiceType: number
+
+  constructor(eventID: number, voiceType: number,) {
+    this.eventID = eventID
+    this.voiceType = voiceType
+  }
+}
+
+class EventTrackAnalyticsUseCaseResponse {
+  usersPresent: number | null
+  usersAbsent: number | null
+  recentsUsers: UserEntity[] | null
+  error: ErrorEntity | null
+
+  constructor(usersPresent: number | null, usersAbsent: number | null, recentsUsers: UserEntity[] | null, error: ErrorEntity | null) {
+    this.usersPresent = usersPresent
+    this.usersAbsent = usersAbsent
+    this.recentsUsers = recentsUsers
+    this.error = error
+  }
+}
 
 export {
   CreateEventUseCaseRequest,
@@ -71,5 +95,7 @@ export {
   InitEventUseCaseRequest,
   InitEventUseCaseResponse,
   ConcludeEventUseCaseRequest,
-  ConcludeEventUseCaseResponse
+  ConcludeEventUseCaseResponse,
+  EventTrackAnalyticsUseCaseRequest,
+  EventTrackAnalyticsUseCaseResponse
 }

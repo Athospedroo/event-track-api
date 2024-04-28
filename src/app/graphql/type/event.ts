@@ -1,5 +1,6 @@
 import { GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLString } from "graphql"
 import { errorType } from "./error"
+import { userType } from "./user"
 
 const eventType = new GraphQLObjectType({
   name: 'eventType',
@@ -44,10 +45,21 @@ const concludeEventResponseType = new GraphQLObjectType({
   }
 })
 
+const eventTrackAnalyticsResponseType = new GraphQLObjectType({
+  name: 'eventTrackAnalyticsResponseType',
+  fields: {
+    usersPresent: { type: GraphQLInt },
+    usersAbsent: { type: GraphQLInt },
+    recentsUsers: { type: new GraphQLList(userType) },
+    error: { type: errorType }
+  }
+})
+
 export {
   createEventResponseType,
   eventType,
   listEventResponseType,
   initEventResponseType,
-  concludeEventResponseType
+  concludeEventResponseType,
+  eventTrackAnalyticsResponseType
 }

@@ -1,5 +1,5 @@
 import { CreateEventUseCaseRequest } from "../../../domain/usecase/ucio/event"
-import { ConcludeEventUseCaseValidateInterface, CreateEventUseCaseValidateInterface, InitEventUseCaseValidateInterface } from "../../../domain/usecase/validate/event"
+import { ConcludeEventUseCaseValidateInterface, CreateEventUseCaseValidateInterface, EventTrackAnalyticsUseCaseValidateInterface, InitEventUseCaseValidateInterface } from "../../../domain/usecase/validate/event"
 import { checkNumberEmpty, checkStringEmpty } from "./validate"
 
 class CreateEventUseCaseValidate implements CreateEventUseCaseValidateInterface {
@@ -27,8 +27,19 @@ class ConcludeEventUseCaseValidate implements ConcludeEventUseCaseValidateInterf
   }
 }
 
+class EventTrackAnalyticsUseCaseValidate implements EventTrackAnalyticsUseCaseValidateInterface {
+  eventTrackAnalytics(eventID: number, voiceType: number): string | null {
+      if (checkNumberEmpty(eventID)) 'O ID do evento não pode ficar vazio'
+
+      if(checkNumberEmpty(voiceType)) 'O Id da voz não pode ficar vazio'
+
+      return null
+  }
+}
+
 export {
   CreateEventUseCaseValidate,
   InitEventUseCaseValidate,
-  ConcludeEventUseCaseValidate
+  ConcludeEventUseCaseValidate,
+  EventTrackAnalyticsUseCaseValidate
 }

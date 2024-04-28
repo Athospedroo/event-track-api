@@ -1,9 +1,9 @@
-import { CONCLUDED, NOT_CONCLUDED } from "../constants/event";
+import { NOT_CONCLUDED } from "../constants/event";
 import { InternalServerError, PreconditionError, TAG_INTERNAL_SERVER_ERROR, TAG_PRE_CONDITION_ERROR } from "../entity/error";
 import { EventEntity } from "../entity/event";
-import { ConcludeEventUseCaseRepositoryInterface, CreateEventUseCaseRepositoryInterface, InitEventUseCaseRepositoryInterface, ListEventUseCaseRepositoryInterface } from "./repository/event";
-import { ConcludeEventUseCaseRequest, ConcludeEventUseCaseResponse, CreateEventUseCaseRequest, CreateEventUseCaseResponse, InitEventUseCaseRequest, InitEventUseCaseResponse, ListEventUseCaseResponse } from "./ucio/event";
-import { ConcludeEventUseCaseValidateInterface, CreateEventUseCaseValidateInterface, InitEventUseCaseValidateInterface } from "./validate/event";
+import { ConcludeEventUseCaseRepositoryInterface, CreateEventUseCaseRepositoryInterface, EventTrackAnalyticsUseCaseRepositoryInterface, InitEventUseCaseRepositoryInterface, ListEventUseCaseRepositoryInterface } from "./repository/event";
+import { ConcludeEventUseCaseRequest, ConcludeEventUseCaseResponse, CreateEventUseCaseRequest, CreateEventUseCaseResponse, EventTrackAnalyticsUseCaseRequest, EventTrackAnalyticsUseCaseResponse, InitEventUseCaseRequest, InitEventUseCaseResponse, ListEventUseCaseResponse } from "./ucio/event";
+import { ConcludeEventUseCaseValidateInterface, CreateEventUseCaseValidateInterface, EventTrackAnalyticsUseCaseValidateInterface, InitEventUseCaseValidateInterface } from "./validate/event";
 
 class CreateEventUseCase {
   validate: CreateEventUseCaseValidateInterface
@@ -118,9 +118,42 @@ class ConcludeEventUseCase {
   }
 }
 
+class EventTrackAnalyticsUseCase {
+  validate: EventTrackAnalyticsUseCaseValidateInterface
+  repository: EventTrackAnalyticsUseCaseRepositoryInterface
+
+  constructor(validate: EventTrackAnalyticsUseCaseValidateInterface, repository: EventTrackAnalyticsUseCaseRepositoryInterface) {
+    this.validate = validate
+    this.repository = repository
+  }
+
+  async eventTrackAnalutics(req: EventTrackAnalyticsUseCaseRequest): Promise<EventTrackAnalyticsUseCaseResponse> {
+    try {
+      const { eventID, voiceType } = req
+      const errorMessage = this.validate.eventTrackAnalytics(req.eventID, req.voiceType)
+
+      if (errorMessage) {
+        console.log(TAG_PRE_CONDITION_ERROR, errorMessage)
+        return new EventTrackAnalyticsUseCaseResponse(null, null, null, new PreconditionError(errorMessage))
+      }
+
+      const usersPresent = await this.repository.countUsersPresentsByVoiceType(eventID, voiceType)
+      const usetsAbsent = await this.repository.countUsersAbsentByVoiceType(eventID, voiceType)
+      // const usersRecent = await this.repository.listUsetsRecent(eventID, voiceType)
+
+      return new EventTrackAnalyticsUseCaseResponse(usersPresent, usetsAbsent, null, null)
+    } catch (error: any) {
+      console.log(TAG_INTERNAL_SERVER_ERROR, error)
+
+      return new EventTrackAnalyticsUseCaseResponse(null, null, null, new InternalServerError(error.message))
+    }
+  }
+}
+
 export {
   CreateEventUseCase,
   ListEventUseCase,
   InitEventUseCase,
-  ConcludeEventUseCase
+  ConcludeEventUseCase,
+  EventTrackAnalyticsUseCase
 }

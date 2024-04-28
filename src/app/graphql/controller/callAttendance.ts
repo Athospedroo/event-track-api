@@ -71,7 +71,6 @@ class ListUsersCallAttendanceController {
     const repository = new ListUsersCallAttendanceuseCaseRepository()
 
     const usecase = new ListUsersCallAttendanceUseCase(validate, repository)
-    console.log('usecase', await usecase.listUsersCallAttendance(ucReq))
     return await usecase.listUsersCallAttendance(ucReq)
   }
 }

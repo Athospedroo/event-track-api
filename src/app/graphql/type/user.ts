@@ -9,7 +9,7 @@ const userType = new GraphQLObjectType({
     email: { type: GraphQLString },
     voiceType: { type: GraphQLInt },
     memberCard: { type: GraphQLString },
-    userNumberVoice: { type: GraphQLInt },
+    badgeNumber: { type: GraphQLInt },
     churchName: { type: GraphQLString },
     areaNumber: { type: GraphQLString },
     isActive: { type: GraphQLInt },
