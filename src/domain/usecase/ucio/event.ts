@@ -65,11 +65,9 @@ class ConcludeEventUseCaseResponse {
 }
 
 class EventTrackAnalyticsUseCaseRequest {
-  eventID: number
   voiceType: number
 
-  constructor(eventID: number, voiceType: number,) {
-    this.eventID = eventID
+  constructor(voiceType: number,) {
     this.voiceType = voiceType
   }
 }

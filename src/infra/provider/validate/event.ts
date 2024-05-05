@@ -28,12 +28,10 @@ class ConcludeEventUseCaseValidate implements ConcludeEventUseCaseValidateInterf
 }
 
 class EventTrackAnalyticsUseCaseValidate implements EventTrackAnalyticsUseCaseValidateInterface {
-  eventTrackAnalytics(eventID: number, voiceType: number): string | null {
-      if (checkNumberEmpty(eventID)) 'O ID do evento não pode ficar vazio'
+  eventTrackAnalytics(voiceType: number): string | null {
+    if (checkNumberEmpty(voiceType)) 'O Id da voz não pode ficar vazio'
 
-      if(checkNumberEmpty(voiceType)) 'O Id da voz não pode ficar vazio'
-
-      return null
+    return null
   }
 }
 

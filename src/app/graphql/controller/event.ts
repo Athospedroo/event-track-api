@@ -60,9 +60,9 @@ class ConcludeEventController {
 
 class EventTrackAnalyticsController {
   async eventTRackAnalytics(args: any): Promise<EventTrackAnalyticsUseCaseResponse> {
-    const { eventID, voiceType } = args
+    const { voiceType } = args
 
-    const ucReq = new EventTrackAnalyticsUseCaseRequest(eventID, voiceType)
+    const ucReq = new EventTrackAnalyticsUseCaseRequest(voiceType)
 
     const validate = new EventTrackAnalyticsUseCaseValidate()
     const repository = new EventTrackAnalyticsUseCaseRepository()

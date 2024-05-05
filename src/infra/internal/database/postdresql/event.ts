@@ -1,8 +1,10 @@
 import { CONCLUDED } from "../../../../domain/constants/event"
 import { EventEntity } from "../../../../domain/entity/event"
+import { UserEntity } from "../../../../domain/entity/user"
 import { Connection } from "./connection"
 import { EventModel } from "./model/event"
 import { toEventEntity, toEventModel } from "./transformer/event"
+import { CountUsersAbsentByVoiceType, CountUsersPresentByVoiceType, GetEventRecentByVoiceTypeWrapper, ListUsersRecentWrapper } from "./wrapper/event"
 
 async function createEvent(filter: EventEntity): Promise<void> {
   const model = toEventModel(filter)
@@ -42,20 +44,52 @@ async function getEventStartDate(ID: number): Promise<Date | null> {
 async function concludeEvent(ID: number): Promise<void> {
   const repository = await Connection.getRepository(EventModel)
 
-  await repository.update({ ID }, {  concluded: CONCLUDED })
+  await repository.update({ ID }, { concluded: CONCLUDED })
 }
 
 async function countUsersAbsentByVoiceType(eventID: number, voiceType: number): Promise<number> {
- return 0
+  const manager = await Connection.getManager()
+
+  const wrapper = new CountUsersAbsentByVoiceType(eventID, voiceType)
+
+  const result = await manager.query(wrapper.getSQL(), wrapper.getParameters())
+  const [{ total }] = result
+
+  return total
 }
 
 async function countUsersPresentsByVoiceType(eventID: number, voiceType: number): Promise<number> {
- return 1
+  const manager = await Connection.getManager()
+
+  const wrapper = new CountUsersPresentByVoiceType(eventID, voiceType)
+
+  const result = await manager.query(wrapper.getSQL(), wrapper.getParameters())
+  const [{ total }] = result
+  return total
 }
 
-// async function listUsetsRecent(eventId: number, voiceType: number): Promise<UserEntity[]> {
-//   return 
-// }
+async function listUsersRecent(eventId: number, voiceType: number): Promise<UserEntity[] | null> {
+  const manager = await Connection.getManager()
+
+  const wrapper = new ListUsersRecentWrapper(eventId, voiceType)
+
+  const result = await manager.query(wrapper.getSQL(), wrapper.getParameters())
+
+  return result
+}
+
+async function getEventRecentByVoiceType(voiceType: number): Promise<number | null> {
+  const manager = await Connection.getManager()
+
+  const wrapper = new GetEventRecentByVoiceTypeWrapper(voiceType)
+
+  const result = await manager.query(wrapper.getSQL(), wrapper.getParameters())
+  if (result.length > 0) {
+    const [{ id }] = result
+    return id ? id : null
+  }
+  return null
+}
 
 export {
   createEvent,
@@ -66,5 +100,8 @@ export {
   concludeEvent,
   countUsersAbsentByVoiceType,
   countUsersPresentsByVoiceType,
-  // listUsetsRecent
+  listUsersRecent,
+  getEventRecentByVoiceType
 }
+
+[ 57, 2, 0, 5 ]

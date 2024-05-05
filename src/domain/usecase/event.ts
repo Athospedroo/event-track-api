@@ -129,19 +129,26 @@ class EventTrackAnalyticsUseCase {
 
   async eventTrackAnalutics(req: EventTrackAnalyticsUseCaseRequest): Promise<EventTrackAnalyticsUseCaseResponse> {
     try {
-      const { eventID, voiceType } = req
-      const errorMessage = this.validate.eventTrackAnalytics(req.eventID, req.voiceType)
+      const { voiceType } = req
+      const errorMessage = this.validate.eventTrackAnalytics(req.voiceType)
 
       if (errorMessage) {
         console.log(TAG_PRE_CONDITION_ERROR, errorMessage)
         return new EventTrackAnalyticsUseCaseResponse(null, null, null, new PreconditionError(errorMessage))
       }
 
-      const usersPresent = await this.repository.countUsersPresentsByVoiceType(eventID, voiceType)
-      const usetsAbsent = await this.repository.countUsersAbsentByVoiceType(eventID, voiceType)
-      // const usersRecent = await this.repository.listUsetsRecent(eventID, voiceType)
+      const eventRecentID = await this.repository.getEventRecentByVoiceType(req.voiceType)
 
-      return new EventTrackAnalyticsUseCaseResponse(usersPresent, usetsAbsent, null, null)
+      if (eventRecentID) {
+        const usersPresent = await this.repository.countUsersPresentsByVoiceType(eventRecentID, voiceType)
+        const usetsAbsent = await this.repository.countUsersAbsentByVoiceType(eventRecentID, voiceType)
+        const usersRecent = await this.repository.listUsersRecent(eventRecentID, voiceType)
+  
+        return new EventTrackAnalyticsUseCaseResponse(usersPresent, usetsAbsent, usersRecent, null)
+
+      }
+      return new EventTrackAnalyticsUseCaseResponse(null, null, null, new PreconditionError("evento não encontrado!"))
+
     } catch (error: any) {
       console.log(TAG_INTERNAL_SERVER_ERROR, error)
 

@@ -19,9 +19,10 @@ interface ConcludeEventUseCaseRepositoryInterface {
 }
 
 interface EventTrackAnalyticsUseCaseRepositoryInterface {
+  getEventRecentByVoiceType(voiceType: number): Promise<number | null>
   countUsersPresentsByVoiceType(eventID: number, voiceType: number): Promise<number>
   countUsersAbsentByVoiceType(eventID: number, voiceType: number): Promise<number>
-  // listUsetsRecent(eventId: number, voiceType: number): Promise<UserEntity[]>
+  listUsersRecent(eventId: number, voiceType: number): Promise<UserEntity[] | null>
 }
 
 export {

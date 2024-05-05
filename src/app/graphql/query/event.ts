@@ -6,7 +6,7 @@ import { eventTrackAnalyticsResponseType, listEventResponseType } from "../type/
 const listEventTypeQuery = {
   eventType: {
     type: listEventResponseType,
-    fields: {},
+    args: {},
     resolve: async (_: any): Promise<ListEventUseCaseResponse> => {
       return await new ListEventController().listEvent()
     }
@@ -16,8 +16,7 @@ const listEventTypeQuery = {
 const eventTrackAnalyticsQuery = {
   eventTrackAnalytics: {
     type: eventTrackAnalyticsResponseType,
-    fields: {
-      eventID: { type: GraphQLInt },
+    args: {
       voiceType: { type: GraphQLInt }
     },
     resolve: async (_: any, args: any): Promise<EventTrackAnalyticsUseCaseResponse> => {
