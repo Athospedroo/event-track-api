@@ -131,5 +131,5 @@ export {
   ListUserCallAttendanceAbsentUseCaseRequest,
   ListUserCallAttendanceAbsentUseCaseResponse,
   ListUsersCallAttendanceUseCaseRequest,
-  ListUsersCallAttendanceUseCaseResponse
+  ListUsersCallAttendanceUseCaseResponse,
 }

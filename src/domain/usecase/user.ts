@@ -1,10 +1,10 @@
 import { InternalServerError, PreconditionError, TAG_INTERNAL_SERVER_ERROR, TAG_PRE_CONDITION_ERROR } from "../entity/error"
-import { CreateUsersByFileUseCaseRepositoryInterface, GetUserUseCaseRepositoryInterface, ListUsersWithPaginationUseCaseRepositoryInterface } from "./repository/user"
-import { CreateUsersByFileUseCaseRequest, CreateUsersByFileUseCaseResponse, GetUserUseCaseRequest, GetUserUseCaseResponse, ListUsersWithPaginationUseCaseRequest, ListUsersWithPaginationUseCaseResponse } from "./ucio/user"
+import { CreateUsersByFileUseCaseRepositoryInterface, GetUserByQRCodeIDUseCaseRepositoryInterface, GetUserUseCaseRepositoryInterface, ListUsersWithPaginationUseCaseRepositoryInterface } from "./repository/user"
+import { CreateUsersByFileUseCaseRequest, CreateUsersByFileUseCaseResponse, GetUserByQRCodeIDUseCaseRequest, GetUserByQRCodeIDUseCaseResponse, GetUserUseCaseRequest, GetUserUseCaseResponse, ListUsersWithPaginationUseCaseRequest, ListUsersWithPaginationUseCaseResponse } from "./ucio/user"
 import fs from 'fs'
 import csv from 'csv-parser'
 import { Transform, Writable } from 'stream'
-import { CreateUsersByFileUseCaseValidateInterface, GetUserUseCaseValidateInterface, ListUsersWithPaginationUseCaseValidateInterface } from "./validate/user"
+import { CreateUsersByFileUseCaseValidateInterface, GetUserByQRCodeIDUseCaseValidateInterface, GetUserUseCaseValidateInterface, ListUsersWithPaginationUseCaseValidateInterface } from "./validate/user"
 import { UserEntity } from "../entity/user"
 import { CreateUsersByFileUseCaseCommonInterface } from "./common/user"
 import { ACTIVE, NOT_DELETED } from "../constants/util"
@@ -49,7 +49,8 @@ class CreateUsersByFileUseCase {
               const [badgeNumber, name, churchName, areaNumber, phone, memberCard, voiceType, userType, shirtSize] = data
               const now = this.common.newDate()
               const uuid = this.common.generateUUID()
-              const entityUser = new UserEntity(uuid, name, "", "", voiceType, memberCard || '', badgeNumber, churchName || '', areaNumber || '', phone || '', shirtSize, userType, now, ACTIVE, NOT_DELETED, now, now)
+              const qr_uuid = this.common.generateUUID()
+              const entityUser = new UserEntity(uuid, qr_uuid, name, "", "", voiceType, memberCard || '', badgeNumber, churchName || '', areaNumber || '', phone || '', shirtSize, userType, now, ACTIVE, NOT_DELETED, now, now)
               await this.repository.createUsersByFile(entityUser)
 
             } catch (error: any) {
@@ -137,8 +138,41 @@ class GetUserUseCase {
   }
 }
 
+class GetUserByQRCodeIDUseCase {
+  validate: GetUserByQRCodeIDUseCaseValidateInterface
+  repository: GetUserByQRCodeIDUseCaseRepositoryInterface
+
+  constructor(
+    validate: GetUserByQRCodeIDUseCaseValidateInterface,
+    repository: GetUserByQRCodeIDUseCaseRepositoryInterface
+  ) {
+    this.validate = validate
+    this.repository = repository
+  }
+
+  async getUserByQRCodeID(req: GetUserByQRCodeIDUseCaseRequest): Promise<GetUserByQRCodeIDUseCaseResponse> {
+    try {
+      const errorMessage = this.validate.getUserByQRCodeID(req.qrCodeID)
+
+      if (errorMessage) {
+        console.log(TAG_PRE_CONDITION_ERROR, errorMessage)
+        return new GetUserByQRCodeIDUseCaseResponse(null, new PreconditionError(errorMessage))
+      }
+
+      const user = await this.repository.getUserByQRCodeID(req.qrCodeID)
+
+      return new GetUserByQRCodeIDUseCaseResponse(user, null)
+
+    } catch (error: any) {
+      console.log(TAG_INTERNAL_SERVER_ERROR, error)
+      return new GetUserByQRCodeIDUseCaseResponse(null, new InternalServerError(error.message))
+    }
+  }
+}
+
 export {
   CreateUsersByFileUseCase,
   ListUsersWithPaginationUseCase,
-  GetUserUseCase
+  GetUserUseCase,
+  GetUserByQRCodeIDUseCase
 }

@@ -13,8 +13,13 @@ interface GetUserUseCaseRepositoryInterface {
     getUser(ID: string): Promise<UserEntity | null>
 }
 
+interface GetUserByQRCodeIDUseCaseRepositoryInterface {
+    getUserByQRCodeID(qrcodeID: string): Promise<UserEntity | null>
+}
+
 export {
     CreateUsersByFileUseCaseRepositoryInterface,
     ListUsersWithPaginationUseCaseRepositoryInterface,
-    GetUserUseCaseRepositoryInterface
+    GetUserUseCaseRepositoryInterface,
+    GetUserByQRCodeIDUseCaseRepositoryInterface
 }

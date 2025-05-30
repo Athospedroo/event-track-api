@@ -28,10 +28,12 @@ interface ListUsersCallAttendanceUseCaseRepositoryInterface {
   listUsersCallAttendance(voiceType: number, eventID: number): Promise<ListusersCallAttendanceFilter[] | null>
 }
 
+
+
 export {
   RegisterUserCallAttendanceUseCaseRepositoryInterface,
   RemoveUserCallAttendanceUseCaseRepositoryInterface,
   ListUserCallAttendancePresentUseCaseRepositoryInterface,
   ListUserCallAttendanceAbsentUseCaseRepositoryInterface,
-  ListUsersCallAttendanceUseCaseRepositoryInterface
+  ListUsersCallAttendanceUseCaseRepositoryInterface,
 }

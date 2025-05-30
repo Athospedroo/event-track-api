@@ -1,6 +1,6 @@
-import { CreateUsersByFileUseCaseRepositoryInterface, GetUserUseCaseRepositoryInterface, ListUsersWithPaginationUseCaseRepositoryInterface } from "../../../domain/usecase/repository/user"
+import { CreateUsersByFileUseCaseRepositoryInterface, GetUserByQRCodeIDUseCaseRepositoryInterface, GetUserUseCaseRepositoryInterface, ListUsersWithPaginationUseCaseRepositoryInterface } from "../../../domain/usecase/repository/user"
 import { UserEntity } from '../../../domain/entity/user'
-import { countUsers, createUser, getUser, listUsersByPagination } from "../../internal/database/postdresql/user"
+import { countUsers, createUser, getUser, getUserByQRCodeID, listUsersByPagination } from "../../internal/database/postdresql/user"
 
 class CreateUsersByFileUseCaseRepository implements CreateUsersByFileUseCaseRepositoryInterface {
   async createUsersByFile(user: UserEntity): Promise<void> {
@@ -18,14 +18,21 @@ class ListUsersWithPaginationUseCaseRepository implements ListUsersWithPaginatio
   }
 }
 
-class GetUserUseCaseRepository implements GetUserUseCaseRepositoryInterface{
+class GetUserUseCaseRepository implements GetUserUseCaseRepositoryInterface {
   async getUser(ID: string): Promise<UserEntity | null> {
     return await getUser(ID)
+  }
+}
+
+class GetUserByQRCodeIDUseCaseRepository implements GetUserByQRCodeIDUseCaseRepositoryInterface {
+  async getUserByQRCodeID(qrcodeID: string): Promise<UserEntity | null> {
+    return await getUserByQRCodeID(qrcodeID)
   }
 }
 
 export {
   CreateUsersByFileUseCaseRepository,
   ListUsersWithPaginationUseCaseRepository,
-  GetUserUseCaseRepository
+  GetUserUseCaseRepository,
+  GetUserByQRCodeIDUseCaseRepository
 }

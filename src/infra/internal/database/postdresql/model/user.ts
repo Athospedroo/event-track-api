@@ -3,58 +3,62 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
 @Entity({ schema: 'security', name: 'users' })
 class UserModel {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
-  public ID: string | null
+  ID: string | null
+
+  @Column({ type: 'uuid', name: 'qr_uuid' })
+  qrCodeID: string
 
   @Column({ type: 'varchar', length: '255', nullable: false })
-  public name: string
+  name: string
 
   @Column({ type: 'varchar', length: '255', nullable: true })
-  public email: string | null
+  email: string | null
 
   @Column({ type: 'varchar', length: '255' })
-  public password: string | null
+  password: string | null
 
   @Column({ type: 'int', name: 'voice_type', nullable: false })
-  public voiceType: number
+  voiceType: number
 
   @Column({ type: 'varchar', length: '60', name: 'member_card' })
-  public memberCard: string | null
+  memberCard: string | null
 
   @Column({ type: 'int', name: 'badge_number', nullable: false })
-  public badgeNumber: number
+  badgeNumber: number
 
   @Column({ type: 'varchar', name: 'church_name', length: '255' })
-  public churchName: string | null
+  churchName: string | null
 
   @Column({ type: 'varchar', length: '100', name: 'area_number' })
-  public areaNumber: string | null
+  areaNumber: string | null
 
   @Column({ type: 'varchar', length: '50', nullable: true })
-  public phone: string | null
+  phone: string | null
 
   @Column({ type: 'varchar', length: '50', name: 'shirt_size' })
-  public shirtSize: string | null
+  shirtSize: string | null
 
   @Column({ type: 'int', name: 'user_type', nullable: false })
-  public userType: number
+  userType: number
 
   @Column({ type: 'timestamp', name: 'user_date_birth' })
-  public userDateBirth: Date
+  userDateBirth: Date
 
   @Column({ type: 'int', name: 'is_active', nullable: false })
-  public isActive: number
+  isActive: number
 
   @Column({ type: 'int', name: 'is_deleted', nullable: false })
-  public isDeleted: number
+  isDeleted: number
 
   @Column({ type: 'timestamp with time zone', name: 'created_at', nullable: false })
-  public createdAt: Date
+  createdAt: Date
 
   @Column({ type: 'timestamp with time zone', name: 'updated_at', nullable: false })
-  public updatedAt: Date
+  updatedAt: Date
 
   constructor(
     ID: string | null,
+    qrCodeID: string,
     name: string,
     email: string | null,
     password: string | null,
@@ -73,6 +77,7 @@ class UserModel {
     updatedAt: Date,
   ) {
     this.ID = ID
+    this.qrCodeID = qrCodeID
     this.name = name
     this.email = email
     this.password = password

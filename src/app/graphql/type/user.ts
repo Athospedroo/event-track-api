@@ -5,6 +5,7 @@ const userType = new GraphQLObjectType({
   name: 'userType',
   fields: {
     ID: { type: GraphQLString },
+    qrCodeID: { type: GraphQLString },
     name: { type: GraphQLString },
     email: { type: GraphQLString },
     voiceType: { type: GraphQLInt },
@@ -17,7 +18,7 @@ const userType = new GraphQLObjectType({
   }
 })
 
-const listUsersWithPaginationResponseType = new GraphQLObjectType({ 
+const listUsersWithPaginationResponseType = new GraphQLObjectType({
   name: 'listUsersWithPaginationResponseType',
   fields: {
     users: { type: new GraphQLList(userType) },
@@ -34,8 +35,17 @@ const getUserResponseType = new GraphQLObjectType({
   }
 })
 
+const getUserByQRCodeIDResponseType = new GraphQLObjectType({
+  name: 'getUserByQRCodeIDResponseType',
+  fields: {
+    user: { type: userType },
+    error: { type: errorType }
+  }
+})
+
 export {
   listUsersWithPaginationResponseType,
   userType,
-  getUserResponseType
+  getUserResponseType,
+  getUserByQRCodeIDResponseType
 }

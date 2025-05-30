@@ -1,4 +1,4 @@
-import { CreateUsersByFileUseCaseValidateInterface, GetUserUseCaseValidateInterface, ListUsersWithPaginationUseCaseValidateInterface } from "../../../domain/usecase/validate/user"
+import { CreateUsersByFileUseCaseValidateInterface, GetUserByQRCodeIDUseCaseValidateInterface, GetUserUseCaseValidateInterface, ListUsersWithPaginationUseCaseValidateInterface } from "../../../domain/usecase/validate/user"
 import { checkStringEmpty } from "./validate"
 
 class CreateUsersByFileUseCaseValidate implements CreateUsersByFileUseCaseValidateInterface {
@@ -21,8 +21,17 @@ class GetUserUseCaseValidate implements GetUserUseCaseValidateInterface {
   }
 }
 
+class GetUserByQRCodeIDUseCaseValidate implements GetUserByQRCodeIDUseCaseValidateInterface {
+  getUserByQRCodeID(qrcodeID: string): string | null {
+    if (checkStringEmpty(qrcodeID)) 'QR code inválido'
+    return null
+  }
+
+}
+
 export {
   CreateUsersByFileUseCaseValidate,
   ListUsersWithPaginationUseCaseValidate,
-  GetUserUseCaseValidate
+  GetUserUseCaseValidate,
+  GetUserByQRCodeIDUseCaseValidate
 }

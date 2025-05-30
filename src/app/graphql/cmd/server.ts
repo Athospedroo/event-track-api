@@ -28,7 +28,7 @@ class CmdGraphql {
     public server(): void {
         const server = http.createServer(this.app)
 
-        server.listen(PORT, () => {
+        server.listen(PORT, '0.0.0.0', () => {
             console.log(`event-track-graphql-api is Running... at port ${PORT}`)
         })
     }

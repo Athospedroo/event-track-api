@@ -1,7 +1,7 @@
-import { GetUserUseCaseRequest, GetUserUseCaseResponse, ListUsersWithPaginationUseCaseRequest, ListUsersWithPaginationUseCaseResponse } from "../../../domain/usecase/ucio/user"
-import { GetUserUseCase, ListUsersWithPaginationUseCase } from "../../../domain/usecase/user"
-import { GetUserUseCaseRepository, ListUsersWithPaginationUseCaseRepository } from "../../../infra/provider/repository/user"
-import { GetUserUseCaseValidate, ListUsersWithPaginationUseCaseValidate } from "../../../infra/provider/validate/user"
+import { GetUserByQRCodeIDUseCaseRequest, GetUserByQRCodeIDUseCaseResponse, GetUserUseCaseRequest, GetUserUseCaseResponse, ListUsersWithPaginationUseCaseRequest, ListUsersWithPaginationUseCaseResponse } from "../../../domain/usecase/ucio/user"
+import { GetUserByQRCodeIDUseCase, GetUserUseCase, ListUsersWithPaginationUseCase } from "../../../domain/usecase/user"
+import { GetUserByQRCodeIDUseCaseRepository, GetUserUseCaseRepository, ListUsersWithPaginationUseCaseRepository } from "../../../infra/provider/repository/user"
+import { GetUserByQRCodeIDUseCaseValidate, GetUserUseCaseValidate, ListUsersWithPaginationUseCaseValidate } from "../../../infra/provider/validate/user"
 
 class ListUsersWithPaginationController {
   async listUsersWithPagination(args: any): Promise<ListUsersWithPaginationUseCaseResponse> {
@@ -33,7 +33,24 @@ class GetUserController {
   }
 }
 
+class GetUserByQRCodeIDController {
+  async getUserByQRCodeID(args: any): Promise<GetUserByQRCodeIDUseCaseResponse> {
+    console.log("controller qrcodeID", args)
+    const { qrCodeID } = args
+
+    const ucReq = new GetUserByQRCodeIDUseCaseRequest(qrCodeID)
+
+    const validate = new GetUserByQRCodeIDUseCaseValidate()
+    const repository = new GetUserByQRCodeIDUseCaseRepository()
+
+    const usecase = new GetUserByQRCodeIDUseCase(validate, repository)
+
+    return await usecase.getUserByQRCodeID(ucReq)
+  }
+}
+
 export {
   ListUsersWithPaginationController,
-  GetUserController
+  GetUserController,
+  GetUserByQRCodeIDController
 }

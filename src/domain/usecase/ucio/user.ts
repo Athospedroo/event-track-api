@@ -57,11 +57,32 @@ class GetUserUseCaseResponse {
 	}
 }
 
+class GetUserByQRCodeIDUseCaseRequest {
+	qrCodeID: string
+
+	constructor(qrcodeID: string) {
+		this.qrCodeID = qrcodeID
+	}
+}
+
+class GetUserByQRCodeIDUseCaseResponse {
+	user: UserEntity | null
+	error: ErrorEntity | null
+
+	constructor(user: UserEntity | null, error: ErrorEntity | null) {
+		this.user = user
+		this.error = error
+	}
+}
+
+
 export {
 	CreateUsersByFileUseCaseRequest,
 	CreateUsersByFileUseCaseResponse,
 	ListUsersWithPaginationUseCaseRequest,
 	ListUsersWithPaginationUseCaseResponse,
 	GetUserUseCaseRequest,
-	GetUserUseCaseResponse
+	GetUserUseCaseResponse,
+	GetUserByQRCodeIDUseCaseRequest,
+	GetUserByQRCodeIDUseCaseResponse
 }

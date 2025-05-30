@@ -34,8 +34,17 @@ async function countUsers(): Promise<number> {
 async function getUser(ID: string): Promise<UserEntity | null> {
     const repository = await Connection.getRepository(UserModel)
 
-    const user = await repository.findOne({where: { ID, isActive: ACTIVE, isDeleted: NOT_DELETED }})
+    const user = await repository.findOne({ where: { ID, isActive: ACTIVE, isDeleted: NOT_DELETED } })
 
+    return user ? toUserEntity(user) : null
+}
+
+async function getUserByQRCodeID(qrCodeID: string) {
+    const repository = await Connection.getRepository(UserModel)
+
+    const user = await repository.findOne({ where: { qrCodeID, isActive: ACTIVE, isDeleted: NOT_DELETED } })
+    console.log("QRCODEID", qrCodeID)
+    console.log("usuario", user)
     return user ? toUserEntity(user) : null
 }
 
@@ -43,5 +52,6 @@ export {
     createUser,
     listUsersByPagination,
     countUsers,
-    getUser
+    getUser,
+    getUserByQRCodeID
 }

@@ -1,24 +1,26 @@
 class UserEntity {
-  public ID: string | null
-  public name: string
-  public email: string | null
-  public password: string | null
-  public voiceType: number
-  public memberCard: string | null
-  public badgeNumber: number
-  public churchName: string | null
-  public areaNumber: string | null
-  public phone: string | null
-  public shirtSize: string | null
-  public userType: number
-  public userDateBirth: Date
-  public isActive: number
-  public isDeleted: number
-  public createdAt: Date
-  public updatedAt: Date
+  ID: string | null
+  qrCodeID: string
+  name: string
+  email: string | null
+  password: string | null
+  voiceType: number
+  memberCard: string | null
+  badgeNumber: number
+  churchName: string | null
+  areaNumber: string | null
+  phone: string | null
+  shirtSize: string | null
+  userType: number
+  userDateBirth: Date
+  isActive: number
+  isDeleted: number
+  createdAt: Date
+  updatedAt: Date
 
   constructor(
     ID: string | null,
+    qrCodeID: string,
     name: string,
     email: string | null,
     password: string | null,
@@ -37,6 +39,7 @@ class UserEntity {
     updatedAt: Date,
   ) {
     this.ID = ID
+    this.qrCodeID = qrCodeID
     this.name = name
     this.email = email
     this.password = password

@@ -10,8 +10,13 @@ interface GetUserUseCaseValidateInterface {
   getUserUser(ID: string): string | null
 }
 
-export {  
+interface GetUserByQRCodeIDUseCaseValidateInterface {
+  getUserByQRCodeID(qrcodeID: string): string | null
+}
+
+export {
   CreateUsersByFileUseCaseValidateInterface,
   ListUsersWithPaginationUseCaseValidateInterface,
-  GetUserUseCaseValidateInterface
+  GetUserUseCaseValidateInterface,
+  GetUserByQRCodeIDUseCaseValidateInterface
 }

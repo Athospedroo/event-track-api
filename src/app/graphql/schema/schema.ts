@@ -1,6 +1,6 @@
 import { GraphQLObjectType, GraphQLSchema } from "graphql"
 
-import { usersWithPaginationQuery, getUserQuery } from '../query/user'
+import { usersWithPaginationQuery, getUserQuery, getUserByQRCodeIDQuery } from '../query/user'
 import { registerUserCallAttendanceMutation, removeUserCallAttendanceMutation } from '../mutation/callAttendance'
 import { listUserCallAttendanceAbsentQuery, listUserCallAttendancePresentQuery, listUsersCallAttendaceQuery } from '../query/callAttendance'
 import { createEventMutation, initEventMutation, concludedEventMutation } from '../mutation/event'
@@ -17,7 +17,8 @@ const schema = new GraphQLSchema({
             ...listEventTypeQuery,
             ...listUsersCallAttendaceQuery,
             ...getUserQuery,
-            ...eventTrackAnalyticsQuery
+            ...eventTrackAnalyticsQuery,
+            ...getUserByQRCodeIDQuery
         })
     }),
     mutation: new GraphQLObjectType({
@@ -31,5 +32,5 @@ const schema = new GraphQLSchema({
         })
     })
 })
-
+    
 export { schema }
